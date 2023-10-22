@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitoblar</title>
+</head>
+<body>
+<br>
+<h1>Kutubxonadagi barcha kitoblar ro'yxati</h1>
+<br>
+<a href="/">
+    <button>Ortga</button>
+</a>
+<br>
+<hr>
+<br>
+<form method="get">
+    <input type="text" placeholder="qidirish" name="search">
+    <button>Qidirish</button>
+</form>
+<ol>
+    {% for book in books %}
+    <h2>
+        <li>{{book.name}} ({{book.page}}, {{book.author}})</li>
+    </h2>
+    <a href="/delete_book/{{book.id}}/">
+        <button>O'chirish</button>
+    </a>
+    <a href="/update_book/{{book.id}}/"><button>Tahrirlash</button></a>
+    {% endfor %}
+</ol>
+<hr>
+<h3>Kutubxonadagi kitoblar jadvaliga ma'lumot qo'shish</h3>
+<form method="post">
+    {% csrf_token %}
+    <label for="name">Nomi: </label>
+    <input type="text" name="name" id="name"><br>
+
+    <label for="genre">Janri: </label>
+    <input type="text" id="genre" name="genre"><br>
+
+    <label for="page">Sahifa soni: </label>
+    <input type="number" id="page" name="page"><br>
+
+    <label for="author">Muallif: </label>
+    <select name="author" id="author">
+        {% for author in authors %}
+        <option value="{{author.id}}">{{author.name}}</option>
+        {% endfor %}
+    </select>
+
+    <button>Qo'shish</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recordlar</title>
+</head>
+<body>
+<br>
+<h1>Kutubxonadagi barcha recordlar ro'yxati</h1>
+<br>
+<a href="/">
+    <button>Ortga</button>
+</a>
+<br>
+<hr>
+<br>
+<form method="get">
+    <input type="text" placeholder="qidirish" name="search">
+    <button>Qidirish</button>
+</form>
+
+<ol>
+    {% for record in records %}
+    <h2>
+        <li>{{record.student.name}} ({{record.book.name}}, {{record.isreturned}})</li>
+    </h2>
+    <a href="/delete_record/{{record.id}}/">
+        <button>O'chirish</button>
+    </a>
+    <a href="/update_record/{{record.id}}/">
+        <button>Tahrirlash</button>
+    </a>
+    {% endfor %}
+</ol>
+<hr>
+<h3>Kutubxonadagi recordlar jadvaliga ma'lumot qo'shish</h3>
+<form method="post">
+    {% csrf_token %}
+    <label for="student">Ismi: </label>
+    <select name="student" id="student">
+        {% for student in students %}
+        <option value="{{student.id}}">{{student.name}}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="book">Kitob: </label>
+    <select name="book" id="book">
+        {% for book in books %}
+        <option value="{{book.id}}">{{book.name}}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="librarian">Kutubxonachi: </label>
+    <select name="librarian" id="librarian">
+        {% for librarian in librarians %}
+        <option value="{{librarian.id}}">{{librarian.name}}</option>
+        {% endfor %}
+    </select><br>
+
+    <label for="date_of_recieved">Olingan sana: </label>
+    <input type="date" id="date_of_recieved" name="date_of_recieved"><br>
+
+    <label for="isreturned">Qaytarganmi? </label>
+    <input type="checkbox" id="isreturned" name="isreturned"><br>
+
+    <label for="date_of_returned">Qaytarish sanasi: </label>
+    <input type="date" id="date_of_returned" name="date_of_returned"><br>
+
+    <button>Qo'shish</button>
+</form>
+</body>
+</html>

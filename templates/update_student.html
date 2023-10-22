@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tahrirlash</title>
+</head>
+<body>
+<br>
+<h3>Kutubxonadagi talabalar jadvalidagi ma'lumotni tahrirlash</h3>
+<br>
+<hr>
+<br>
+<form method="post">
+    {% csrf_token %}
+    <label for="name">Ismi: </label>
+    <input type="text" name="name" id="name" value="{{student.name}}"><br>
+
+    <label for="course">Kursi: </label>
+    <input type="number" id="course" name="course" value="{{student.course}}"><br>
+
+    <label for="number_of_book">Kitoblari soni: </label>
+    <input type="number" id="number_of_book" name="number_of_book" value="{{student.number_of_book}}"><br>
+
+    <button>Saqlash</button>
+</form>
+
+
+</body>
+</html>

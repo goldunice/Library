@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tahrirlash</title>
+</head>
+<body>
+<br>
+<h3>Kutubxonadagi mualliflar jadvalidagi ma'lumotni tahrirlash</h3>
+<hr>
+<br>
+<form method="post">
+    {% csrf_token %}
+    <label for="name">Ismi: </label>
+    <input type="text" name="name" id="name" value="{{author.name}}"><br>
+
+    <label for="gender">Jinsi: </label>
+    <select name="gender" id="gender" value="{{author.gender}}">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+    <br>
+    <label for="date_of_birth">Tug'ilgan sanasi: </label>
+    <input type="text" id="date_of_birth" name="date_of_birth" value="{{author.date_of_birth}}"><br>
+
+    <label for="number_of_book">Kitoblari soni: </label>
+    <input type="number" id="number_of_book" name="number_of_book" value="{{author.number_of_book}}"><br>
+
+    <label for="alive">Tirikmi: </label>
+    <input type="checkbox" id="alive" name="alive" value="{{author.alive}}"><br>
+
+    <button>Qo'shish</button>
+</form>
+
+</body>
+</html>
