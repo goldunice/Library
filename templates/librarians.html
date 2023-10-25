@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kutubxonachilar</title>
+</head>
+<body>
+<br>
+<h1>Kutubxonadagi barcha kutubxonachilar ro'yxati</h1>
+<a href="/">
+    <button>Ortga</button>
+</a>
+<br>
+<hr>
+<br>
+<form method="get">
+    <input type="text" placeholder="Qidirish" name="search">
+    <button>Qidirish</button>
+</form>
+
+
+<ol>
+    {% for librarian in librarians %}
+    <li>
+        <h3>{{librarian.name}} ({{librarian.working_time}})</h3>
+        <a href="/delete_librarian/{{librarian.id}}/">
+            <button>O'chirish</button>
+        </a>
+
+        <a href="/update_librarian/{{librarian.id}}/">
+            <button>Tahrirlash</button>
+        </a>
+    </li>
+    {% endfor %}
+</ol>
+
+<br>
+<hr>
+<br>
+<h3>Kutubxonadagi kutubxonachilar jadvaliga ma'lumot qo'shish</h3>
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <button>Qo'shish</button>
+</form>
+
+
+</body>
+</html>
+
+<!--   <label for="name">Ismi: </label>-->
+<!--    <input type="text" id="name" name="name"><br>-->
+<!--    <label for="working_time">Ish vaqti: </label>-->
+<!--    <select name="working_time" id="working_time">-->
+<!--        {% for time in times %}-->
+<!--        <option value="{{time}}">{{time}}</option>-->
+<!--        {% endfor %}-->
+<!--    </select><br>-->

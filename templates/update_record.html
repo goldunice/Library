@@ -11,34 +11,38 @@
 <form method="post">
     {% csrf_token %}
     <label for="student">Ismi: </label>
-    <select name="student" id="student" >
+    <select name="student" id="student" disabled>
         {% for student in students %}
         <option value="{{student.id}}">{{student.name}}</option>
         {% endfor %}
     </select><br>
 
     <label for="book">Kitob: </label>
-    <select name="book" id="book">
+    <select name="book" id="book" disabled>
         {% for book in books %}
         <option value="{{book.id}}">{{book.name}}</option>
         {% endfor %}
     </select><br>
 
     <label for="librarian">Kutubxonachi: </label>
-    <select name="librarian" id="librarian" >
+    <select name="librarian" id="librarian" disabled>
         {% for librarian in librarians %}
         <option value="{{librarian.id}}">{{librarian.name}}</option>
         {% endfor %}
     </select><br>
 
     <label for="date_of_recieved">Olingan sana: </label>
-    <input type="text" id="date_of_recieved" name="date_of_recieved" value="{{record.date_of_recieved}}"><br>
+    <input type="date" id="date_of_recieved" name="date_of_recieved" value="{{record.date_of_recieved}}" disabled>
+    <b>{{record.date_of_recieved}}</b>
+    <br>
 
     <label for="isreturned">Qaytarganmi? </label>
     <input type="checkbox" id="isreturned" name="isreturned" value="{{record.isreturned}}"><br>
 
     <label for="date_of_returned">Qaytarish sanasi: </label>
-    <input type="text" id="date_of_returned" name="date_of_returned" value="{{record.date_of_returned}}"><br>
+    <input type="date" id="date_of_returned" name="date_of_returned" value="{{record.date_of_returned}}">
+    <b>{{record.date_of_returned}}</b>
+    <br>
 
     <button>Saqlash</button>
 </form>

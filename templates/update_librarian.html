@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tahrirlash</title>
+</head>
+<body>
+<h2>Kutubxonadagi kutubxonachilar jadvalidagi ma'lumotni tahrirlash</h2>
+<hr>
+<br>
+<form method="post">
+    {% csrf_token %}
+    <label for="name">Ismi: </label>
+    <input type="text" id="name" name="name" value="{{librarian.name}}"><br>
+
+    <label for="working_time">Ish vaqti: </label>
+    <select name="working_time" id="working_time">
+        {% for time in times %}
+        <option value="{{time}}">{{time}}</option>
+        {% endfor %}
+    </select><br>
+
+    <button>Qo'shish</button>
+</form>
+
+</body>
+</html>
