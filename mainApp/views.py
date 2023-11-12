@@ -2,10 +2,35 @@ from django.shortcuts import render, redirect
 from .models import times
 from .models import *
 from .forms import *
+from django.contrib.auth import authenticate, logout, login
+
+
+def login_view(request):
+    if request.method == 'POST':
+        user = authenticate(
+            username=request.POST.get("l"),
+            password=request.POST.get("p"),
+        )
+        if user is None:
+            return redirect("/")
+        login(request, user)
+        return redirect("/home/")
+
+    return render(request, 'login.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("/")
 
 
 def homepage(request):
-    return render(request, 'homepage.html')
+    if request.user.is_authenticated:
+        context = {
+            "user": request.user.username.capitalize()
+        }
+        return render(request, 'homepage.html', context)
+    return redirect("/")
 
 
 def students(request):
@@ -149,56 +174,60 @@ def update_book(request, num):
 
 
 def records(request):
-    if request.method == 'POST':
-        form = RecordForm(request.POST)
-        if form.is_valid():
-            form.save()
-        # Record.objects.create(
-        #     student=Student.objects.get(id=request.POST.get("student")),
-        #     book=Book.objects.get(id=request.POST.get("book")),
-        #     librarian=Librarian.objects.get(id=request.POST.get("librarian")),
-        #     date_of_recieved=request.POST.get("date_of_recieved"),
-        #     isreturned=request.POST.get("isreturned") == "on",
-        #     date_of_returned=request.POST.get("date_of_returned")
-        # )
-        return redirect("/records/")
-    word = request.GET.get("search")
-    result = Record.objects.all()
-    if word:
-        result = result.filter(student__name__contains=word)
-    content = {
-        "records": result,
-        "students": Student.objects.all(),
-        "books": Book.objects.all(),
-        "librarians": Librarian.objects.all(),
-        "form": RecordForm()
-    }
-    return render(request, 'records.html', content)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = RecordForm(request.POST)
+            if form.is_valid():
+                form.save()
+            # Record.objects.create(
+            #     student=Student.objects.get(id=request.POST.get("student")),
+            #     book=Book.objects.get(id=request.POST.get("book")),
+            #     librarian=Librarian.objects.get(id=request.POST.get("librarian")),
+            #     date_of_recieved=request.POST.get("date_of_recieved"),
+            #     isreturned=request.POST.get("isreturned") == "on",
+            #     date_of_returned=request.POST.get("date_of_returned")
+            # )
+            return redirect("/records/")
+        word = request.GET.get("search")
+        result = Record.objects.all()
+        if word:
+            result = result.filter(student__name__contains=word)
+        content = {
+            "records": result,
+            "students": Student.objects.all(),
+            "books": Book.objects.all(),
+            "librarians": Librarian.objects.all(),
+            "form": RecordForm()
+        }
+        return render(request, 'records.html', content)
+    return redirect("/")
 
 
 def delete_record(request, num):
-    Record.objects.get(id=num).delete()
-    return redirect("/records/")
+    if request.user.is_authenticated:
+        Record.objects.get(id=num).delete()
+        return redirect("/records/")
 
 
 def update_record(request, num):
-    if request.method == 'POST':
-        Record.objects.filter(id=num).update(
-            # student=Student.objects.get(id=request.POST.get("student")),
-            # book=Book.objects.get(id=request.POST.get("book")),
-            # librarian=Librarian.objects.get(id=request.POST.get("librarian")),
-            # date_of_recieved=request.POST.get("date_of_recieved"),
-            isreturned=request.POST.get("alive") == "on",
-            date_of_returned=request.POST.get("date_of_returned")
-        )
-        return redirect("/records/")
-    content = {
-        "record": Record.objects.get(id=num),
-        "students": Student.objects.all(),
-        "books": Book.objects.all(),
-        "librarians": Librarian.objects.all()
-    }
-    return render(request, 'update_record.html', content)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            Record.objects.filter(id=num).update(
+                # student=Student.objects.get(id=request.POST.get("student")),
+                # book=Book.objects.get(id=request.POST.get("book")),
+                # librarian=Librarian.objects.get(id=request.POST.get("librarian")),
+                # date_of_recieved=request.POST.get("date_of_recieved"),
+                isreturned=request.POST.get("alive") == "on",
+                date_of_returned=request.POST.get("date_of_returned")
+            )
+            return redirect("/records/")
+        content = {
+            "record": Record.objects.get(id=num),
+            "students": Student.objects.all(),
+            "books": Book.objects.all(),
+            "librarians": Librarian.objects.all()
+        }
+        return render(request, 'update_record.html', content)
 
 
 def librarians(request):

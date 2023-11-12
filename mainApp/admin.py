@@ -2,24 +2,11 @@ from django.contrib import admin
 from .models import *
 
 
-# from django.contrib.auth.models import Group, User
-
-
-# admin.site.register(Author)
-# admin.site.register(Book)
-# admin.site.register(Librarian)
-# admin.site.register(Student)
-# admin.site.register(Record)
-
-# admin.site.unregister(Group)
-# admin.site.unregister(User)
-
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "course", "number_of_book"]
     list_display_links = ["id", "name"]
     search_fields = ["name"]
-
 
 
 @admin.register(Author)
@@ -59,4 +46,3 @@ class RecordAdmin(admin.ModelAdmin):
     search_fields = ["student__name", "book__name", "librarian__name"]
     autocomplete_fields = ["student", "book", "librarian"]
     list_display_links = ["id", "student"]
-

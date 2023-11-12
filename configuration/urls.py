@@ -1,11 +1,15 @@
 from django.contrib import admin
 from django.urls import path
 from mainApp.views import homepage, students, authors, books, records, delete_student, delete_author, delete_book, \
-    delete_record, update_student, update_author, update_book, update_record, librarians, delete_librarian,update_librarian
+    delete_record, update_student, update_author, update_book, update_record, librarians, delete_librarian, \
+    update_librarian, \
+    login_view, logout_view
 
 urlpatterns = [
+    path('', login_view),
+    path('logout/', logout_view),
     path('admin/', admin.site.urls),
-    path('', homepage),
+    path('home/', homepage),
     path('students/', students),
     path('delete_student/<int:num>/', delete_student),
     path('update_student/<int:num>/', update_student),
